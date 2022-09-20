@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import './Card.css';
+import { useEffect, useState } from 'react';
 
 const DATA = {
   jobs: [
@@ -57,9 +58,29 @@ const DATA = {
       top_applicant: false,
       posted: "2 weeks ago",
       id: 6
+    },
+    {
+      name: "Google",
+      logo: "https://media-exp1.licdn.com/dms/image/C4D0BAQFiYnR1Mbtxdg/company-logo_200_200/0/1538169321193?e=1671667200&v=beta&t=6H4i3Hn-pziHw8mfNBMZtixPxPFEZSt15ba70ZaSLyE",
+      job_title: "Frontend Engineer, Growth Team",
+      location: "San Jose, CA",
+      top_applicant: false,
+      posted: "2 weeks ago",
+      id: 5
+    },
+    {
+      name: "Amazon",
+      logo: "https://media-exp1.licdn.com/dms/image/C560BAQHTvZwCx4p2Qg/company-logo_100_100/0/1612205615891?e=1671667200&v=beta&t=VNT-uuOaQGKurAJcFWD2NEHQMJeH3b44u7mzNkM2WXo",
+      job_title: "Frontend Engineer, Growth Team",
+      location: "San Jose, CA",
+      top_applicant: false,
+      posted: "2 weeks ago",
+      id: 6
     }
   ]
 }
+
+const CHUNK = 3;
 
 function Card({content}) {
   return (
@@ -80,15 +101,31 @@ function Card({content}) {
   )
 }
 function App() {
-  console.log(DATA)
+  const [slicedContent, setContent] = useState([])
+  useEffect(() => {
+    splitIntoChunk(DATA.jobs);
+  }, [])
+
+  function splitIntoChunk(arr) {
+    const pages = []
+    for (let i=0; i < arr.length; i += CHUNK) {
+
+        let tempArray;
+        tempArray = arr.slice(i, i + CHUNK);
+        pages.push(tempArray);
+    }
+    setContent([...pages])
+  }
+console.log(slicedContent[0])
+
   return (
     <div className="App">
       <div className="Card-Wrapper">
-        {DATA.jobs.map((item) => {
+        {slicedContent.length > 0 ? slicedContent[0].map((item) => {
           return (
             <Card content={item} key={item.id}></Card>
           )
-        })}
+        }): ''}
       </div>
     </div>
   );
