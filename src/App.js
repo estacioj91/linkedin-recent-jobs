@@ -81,16 +81,30 @@ const DATA = {
   ]
 }
 
-function CardWrapper({content}) {
+function CardWrapper({content, next, previous, index}) {
+  const [fade, setFade] = useState(false);
+  useEffect(() => {
+      console.log("here", fade)
+      setTimeout(() => {
+        setFade(false);
+      }, 300);
+  }, [fade])
+
   return(
     <div className="Card-Wrapper">
       <div className="Card-Wrapper__control-wrapper">
         <h5 className="Card-Wrapper__title">Recently posted jobs</h5>
-        <button className="Card-Wrapper__button">Previous</button>
-        <button className="Card-Wrapper__button">Next</button>
+        <button className="Card-Wrapper__button" onClick={() =>{
+          setFade(true);
+          previous();
+        }}>Previous</button>
+        <button className="Card-Wrapper__button" onClick={() =>{
+          setFade(true);
+          next();
+        }}>Next</button>
       </div>
-      <div className="Card-Wrapper__cards">
-      {content.length > 0 ? content[0].map((item) => {
+      <div className={`${fade ? 'hidden' : 'visible'} Card-Wrapper__cards`}>
+      {content.length > 0 ? content.map((item) => {
           return (
             <Card content={item} key={item.id}></Card>
           )
@@ -98,9 +112,9 @@ function CardWrapper({content}) {
       </div>
       <div className="Card-Wrapper__dots">
         <ul className="Card-Wrapper__dots-list">
-          <li className="Card-wrapper__list-item"><div className="Card-Wrapper__dot Card-Wrapper__dot_active"></div></li>
-          <li className="Card-wrapper__list-item"><div className="Card-Wrapper__dot"></div></li>
-          <li className="Card-wrapper__list-item"><div className="Card-Wrapper__dot"></div></li>
+          <li className="Card-wrapper__list-item"><div className={`Card-Wrapper__dot ${index===0 ? 'Card-Wrapper__dot_active': ''}`}></div></li>
+          <li className="Card-wrapper__list-item"><div className={`Card-Wrapper__dot ${index===1 ? 'Card-Wrapper__dot_active': ''}`}></div></li>
+          <li className="Card-wrapper__list-item"><div className={`Card-Wrapper__dot ${index===2 ? 'Card-Wrapper__dot_active': ''}`}></div></li>
         </ul>
       </div>
     </div>
@@ -128,10 +142,13 @@ function Card({content}) {
 }
 function App() {
   const CHUNK = 3;
-  const [slicedContent, setContent] = useState([])
+  const [slicedContent, setContent] = useState([]);
+  const [index, setIndex] = useState(0);
   useEffect(() => {
-    splitIntoChunk(DATA.jobs);
-  }, [])
+    if(slicedContent.length === 0){
+      splitIntoChunk(DATA.jobs);
+    }
+  }, [index])
 
   function splitIntoChunk(arr) {
     const pages = []
@@ -144,9 +161,27 @@ function App() {
     setContent([...pages])
   }
 
+  function next() {
+    if(index === slicedContent.length-1){
+      setIndex(0);
+    }
+    else {
+      setIndex(index+1);
+    }
+  }
+
+  function previous() {
+    if(index===0){
+      setIndex(slicedContent.length-1)
+    }
+    else{
+      setIndex(index-1);
+    }
+  }
+
   return (
     <div className="App">{slicedContent.length > 0 ? 
-      <CardWrapper content={slicedContent}></CardWrapper>: ''}
+      <CardWrapper content={slicedContent[index]} index={index} next={next} previous={previous}></CardWrapper>: ''}
     </div>
   );
 }
