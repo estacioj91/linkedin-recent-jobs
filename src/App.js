@@ -80,7 +80,18 @@ const DATA = {
   ]
 }
 
-const CHUNK = 3;
+function CardWrapper({content}) {
+  return(
+    <div className="Card-Wrapper">
+      {content.length > 0 ? content[0].map((item) => {
+          return (
+            <Card content={item} key={item.id}></Card>
+          )
+        }): ''}
+    </div>
+  )
+}
+
 
 function Card({content}) {
   return (
@@ -101,6 +112,7 @@ function Card({content}) {
   )
 }
 function App() {
+  const CHUNK = 3;
   const [slicedContent, setContent] = useState([])
   useEffect(() => {
     splitIntoChunk(DATA.jobs);
@@ -116,17 +128,10 @@ function App() {
     }
     setContent([...pages])
   }
-console.log(slicedContent[0])
 
   return (
-    <div className="App">
-      <div className="Card-Wrapper">
-        {slicedContent.length > 0 ? slicedContent[0].map((item) => {
-          return (
-            <Card content={item} key={item.id}></Card>
-          )
-        }): ''}
-      </div>
+    <div className="App">{slicedContent.length > 0 ? 
+      <CardWrapper content={slicedContent}></CardWrapper>: ''}
     </div>
   );
 }
