@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import './Card.css';
+import './Card-Wrapper.css';
 import { useEffect, useState } from 'react';
 
 const DATA = {
@@ -83,11 +84,25 @@ const DATA = {
 function CardWrapper({content}) {
   return(
     <div className="Card-Wrapper">
+      <div className="Card-Wrapper__control-wrapper">
+        <h5 className="Card-Wrapper__title">Recently posted jobs</h5>
+        <button className="Card-Wrapper__button">Previous</button>
+        <button className="Card-Wrapper__button">Next</button>
+      </div>
+      <div className="Card-Wrapper__cards">
       {content.length > 0 ? content[0].map((item) => {
           return (
             <Card content={item} key={item.id}></Card>
           )
         }): ''}
+      </div>
+      <div className="Card-Wrapper__dots">
+        <ul className="Card-Wrapper__dots-list">
+          <li className="Card-wrapper__list-item"><div className="Card-Wrapper__dot Card-Wrapper__dot_active"></div></li>
+          <li className="Card-wrapper__list-item"><div className="Card-Wrapper__dot"></div></li>
+          <li className="Card-wrapper__list-item"><div className="Card-Wrapper__dot"></div></li>
+        </ul>
+      </div>
     </div>
   )
 }

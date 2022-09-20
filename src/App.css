@@ -76,3 +76,65 @@
   color: rgba(0,0,0,.6);
   margin: 20px 0 0;
 }
+
+
+.Card-Wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+}
+
+.Card-Wrapper__cards {
+  display: flex;
+  flex-direction: row;
+}
+
+.Card-Wrapper__control-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.Card-Wrapper__title {
+  font-size: 18px;
+  text-align: left;
+  font-weight: 500;
+  line-height: 24px;
+  width: 100%;
+}
+
+.Card-Wrapper__button, .Card-Wrapper__button:focus {
+  font-size: 16px;
+  outline: none;
+  background: transparent;
+  border: 1px solid transparent;
+  height: 24px;
+  cursor: pointer;
+  margin-right: 5px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.Card-Wrapper__button:hover {
+  background-color: rgb(220, 216, 216);
+}
+
+.Card-Wrapper__dots-list {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  width: 40px;
+  justify-content: space-between;
+}
+
+.Card-Wrapper__dot {
+  height: 9px;
+  width: 9px;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+.Card-Wrapper__dot_active {
+  background-color: black;
+}
