@@ -1,9 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
-
+import useLocalStorage from './useLocalStorage';
 function App() {
+  const [name, setName] = useLocalStorage("name", "john")
   return (
     <div className="App">
+      <input type="text" value={name} onChange={(e) => {
+        setName(e.target.value)
+      }} />
     </div>
   );
 }
